@@ -1,5 +1,8 @@
 ### a mediocre writer, code writer :octocat:
 
+![sanikkenway's github stats](https://github-readme-stats.vercel.app/api?username=sanikkenway&count_private=true&show_icons=true&&theme=bear&include_all_commits=true)   
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=sanikkenway&layout=compact&theme=bear)
+
 <!--
 **sanikkenway/sanikkenway** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
