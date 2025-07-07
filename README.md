@@ -5,6 +5,8 @@
 
 ![](https://komarev.com/ghpvc/?username=sanikkenway&color=dc143c&style=plastic&label=Reputations)
 
+![Metrics](/github-metrics.svg)
+
 <!--
 **sanikkenway/sanikkenway** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
