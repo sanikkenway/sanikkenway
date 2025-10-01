@@ -14,23 +14,29 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y p7zip-full
+      - name: Install GPG
+        run: sudo apt-get update && sudo apt-get install -y gnupg
 
       - name: Set backup name
         run: echo "ARCHIVE_NAME=repo-backup-$(date +'%Y-%m-%d_%H-%M-%S').tar.gz.7z" >> $GITHUB_ENV
 
-      - name: Create encrypted archive
+      - name: Create tar.gz archive
+        run: tar -czf "$ARCHIVE_NAME" .
+
+      - name: Encrypt archive with GPG
         run: |
-          tar -czf - . | 7z a -p"${{ secrets.ARCHIVE_PASSWORD }}" -si "$ARCHIVE_NAME"
+          gpg --batch --yes --symmetric --cipher-algo AES256 \
+              --passphrase "${{ secrets.ARCHIVE_PASSWORD }}" \
+              "$ARCHIVE_NAME"
+          echo "ENCRYPTED_NAME=${ARCHIVE_NAME}.gpg" >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-5 # change to your region
+          aws-region: ap-southeast-5
 
       - name: Upload to S3
         run: |
-          aws s3 cp "$ARCHIVE_NAME" "s3://${{ secrets.AWS_BUCKET }}/backups/$ARCHIVE_NAME"
+          aws s3 cp "$ENCRYPTED_NAME" "s3://${{ secrets.AWS_BUCKET }}/backups/$ENCRYPTED_NAME"
