@@ -33,4 +33,4 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp "$ARCHIVE_NAME" "s3://${{ secrets.AWS_S3_BUCKET }}/backups/$ARCHIVE_NAME"
+          aws s3 cp "$ARCHIVE_NAME" "s3://${{ secrets.AWS_BUCKET }}/backups/$ARCHIVE_NAME"
