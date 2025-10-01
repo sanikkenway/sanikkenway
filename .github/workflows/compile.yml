@@ -21,9 +21,7 @@ jobs:
         run: echo "ARCHIVE_NAME=repo-backup-$(date +'%Y-%m-%d_%H-%M-%S').tar.gz" >> $GITHUB_ENV
 
       - name: Create tar.gz archive
-        run: |
-          tar --exclude='*.gpg' \
-              -czf "$ARCHIVE_NAME" .
+        run: tar -czf "$ARCHIVE_NAME" .
 
       - name: Encrypt archive with GPG
         run: |
