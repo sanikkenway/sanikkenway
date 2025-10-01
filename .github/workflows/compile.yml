@@ -17,10 +17,11 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y p7zip-full
 
+      - name: Set backup name
+        run: echo "ARCHIVE_NAME=repo-backup-$(date +'%Y-%m-%d_%H-%M-%S').tar.gz.7z" >> $GITHUB_ENV
+
       - name: Create encrypted archive
         run: |
-          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
-          ARCHIVE_NAME="repo-backup-$TIMESTAMP.tar.gz.7z"
           tar -czf - . | 7z a -p"${{ secrets.ARCHIVE_PASSWORD }}" -si "$ARCHIVE_NAME"
 
       - name: Configure AWS credentials
@@ -32,6 +33,4 @@ jobs:
 
       - name: Upload to S3
         run: |
-          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
-          ARCHIVE_NAME="repo-backup-$TIMESTAMP.tar.gz.7z"
           aws s3 cp "$ARCHIVE_NAME" "s3://${{ secrets.AWS_S3_BUCKET }}/backups/$ARCHIVE_NAME"
